@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_file
-from scrapper import get_jobs
+from scrapper import get_jobs_so
+from scrapper2 import get_jobs_wwr
+from scrapper3 import get_jobs_ro
 from exporter import save_to_file
 
 
@@ -20,7 +22,7 @@ def report():
         if existingJobs:
             jobs = existingJobs
         else:
-            jobs = get_jobs(word)
+            jobs = get_jobs_so(word) + get_jobs_wwr(word) + get_jobs_ro(word)
             db[word] = jobs
     else:
         return redirect("/")
@@ -40,8 +42,8 @@ def export():
         jobs = db.get(word)
         if not jobs:
             raise Exception()
-        save_to_file(jobs)
-        return send_file("jobs.csv")
+        save_to_file(jobs, word)
+        return send_file("{word}.csv")
     except:
         return redirect("/")
         

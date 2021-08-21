@@ -35,7 +35,7 @@ def extract_jobs(last_page, url):
             jobs.append(job)
     return jobs
 
-def get_jobs(word):
+def get_jobs_so(word):
     url = f"https://stackoverflow.com/jobs?q={word}&sort=i"
     last_page = get_last_page(url)
     jobs = extract_jobs(last_page, url)
